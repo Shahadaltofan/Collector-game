@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>The Collector - A Child's Hope</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <canvas id="gameCanvas"></canvas>
+        
+        <!-- Start Screen -->
+        <div id="startScreen" class="overlay-screen">
+            <div class="screen-content">
+                <h1>🌸 THE COLLECTOR 🌸</h1>
+                <p class="subtitle">A child's hope in difficult times</p>
+                <div class="instructions">
+                    <p>📱 <strong>Drag or move your finger/mouse</strong> left/right to guide the child</p>
+                    <p>✨ <strong>Catch</strong> the good things: 🎒 🌼 🧸 📖</p>
+                    <p>💥 <strong>Avoid</strong> the war things: 💣 🔫 🪖</p>
+                    <p>❤️ Fill your <strong>Hope Meter</strong> and complete all collections</p>
+                    <p>⏱️ You have <strong>50 seconds</strong> — collect items to gain time!</p>
+                    <p>👆 You can <strong>scroll</strong> up/down to see more!</p>
+                </div>
+                <button id="startBtn">START JOURNEY</button>
+                <p class="credit">every child deserves peace ✨</p>
+            </div>
+        </div>
+        
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="overlay-screen" style="display: none;">
+            <div class="screen-content">
+                <h1 id="gameOverTitle">💔 JOURNEY ENDED 💔</h1>
+                <p id="gameOverMessage" class="message"></p>
+                <div id="collectionsSummary" class="collections-summary"></div>
+                <button id="restartBtn">PLAY AGAIN</button>
+            </div>
+        </div>
+        
+        <!-- Win Screen -->
+        <div id="winScreen" class="overlay-screen" style="display: none;">
+            <div class="screen-content">
+                <h1>🌟 HOPE PREVAILS 🌟</h1>
+                <p class="message">You kept the light alive!</p>
+                <div id="winCollectionsSummary" class="collections-summary"></div>
+                <button id="playAgainBtn">PLAY AGAIN</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
