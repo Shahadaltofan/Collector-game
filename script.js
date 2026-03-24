@@ -1,31 +1,37 @@
 (function() {
-    // Canvas setup
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     
-    let W = 1000, H = 750;
-    canvas.width = W;
-    canvas.height = H;
+    // Enable high quality rendering
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    
+    // Game dimensions
+    let W, H;
+    let displayW, displayH;
     
     // Game state
     let gameRunning = false;
-    let gameLoopId = null;
+    let animationId = null;
     
     // Player
-    let playerX = W / 2;
-    const playerWidth = 75;
-    const playerHeight = 65;
-    const playerY = H - 85;
+    let playerX;
+    let playerWidth = 55;
+    let playerHeight = 50;
+    let playerY;
     
     // Objects
     let fallingObjects = [];
     
+    // UI Area Height
+    let uiAreaHeight = 0;
+    
     // Collection goals
     const goals = {
-        bag: { name: "Bag", target: 12, current: 0, emoji: "🎒" },
-        flower: { name: "Flower", target: 10, current: 0, emoji: "🌼" },
-        toy: { name: "Toy", target: 9, current: 0, emoji: "🧸" },
-        book: { name: "Book", target: 8, current: 0, emoji: "📖" }
+        bag: { name: "Bag", target: 12, current: 0, emoji: "🎒", color: "#d4a373" },
+        flower: { name: "Flower", target: 10, current: 0, emoji: "🌼", color: "#e9c46a" },
+        toy: { name: "Toy", target: 9, current: 0, emoji: "🧸", color: "#e76f51" },
+        book: { name: "Book", target: 8, current: 0, emoji: "📖", color: "#2a9d8f" }
     };
     
     // Good object types
@@ -45,64 +51,7 @@
     
     // Hope meter
     let hope = 100;
-    const maxHope = 100;
-    
-    // Timer
-    let timeLeft = 50;
-    
-    // Game status
-    let gameWin = false;
-    let messageQueue = [];
-    
-    // Animation
-    let frameCounter = 0;
-    let spawnDelay = 22;
-    
-    // Effects
-    let hearts = [];
-    let screenFlash = 0;
-    let isDragging = false;
-    
-    // DOM elements
-    const startScreen = document.getElementById('startScreen');
-    const gameOverScreen = document.getElementById('gameOverScreen');
-    const winScreen = document.getElementById('winScreen');
-    const startBtn = document.getElementById('startBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const playAgainBtn = document.getElementById('playAgainBtn');
-    const gameOverTitle = document.getElementById('gameOverTitle');
-    const gameOverMessage = document.getElementById('gameOverMessage');
-    
-    function showMessage(msg, isGood = true) {
-        messageQueue.push({ text: msg, isGood, life: 60 });
-    }
-    
-    function checkAllCollectionsComplete() {
-        for (let key in goals) {
-            if (goals[key].current < goals[key].target) return false;
-        }
-        return true;
-    }
-    
-    function addHeart(x, y) {
-        hearts.push({ x: x, y: y, life: 30 });
-    }
-    
-    function flashScreen() {
-        screenFlash = 10;
-    }
-    
-    function endGame(isWin, reason = "") {
-        if (!gameRunning) return;
-        gameRunning = false;
-        
-        if (gameLoopId) {
-            cancelAnimationFrame(gameLoopId);
-            gameLoopId = null;
-        }
-        
-        if (isWin) {
-            const winSummary = document.getElementById('winCollectionsSummary');
+    con            const winSummary = document.getElementById('winCollectionsSummary');
             winSummary.innerHTML = generateSummaryHTML();
             winScreen.style.display = 'flex';
         } else {
